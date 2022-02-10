@@ -1,0 +1,14 @@
+[
+    {
+        "username": "jakecolledge",
+        "email": "jakecolledgework@gmail.com",
+        "password": "mypassword",
+        "stylist": true
+    },
+    {
+        "username": "randomperson",
+        "email": "randomperson@email.com",
+        "password": "randompersonpassword",
+        "stylist": false
+    }
+]

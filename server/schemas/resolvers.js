@@ -1,16 +1,22 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { Appointments, User } = require('../models');
+const { Appointment, User } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
+        users: async () => {
+            return User.find();
+        },
+        singleUser: async (parent, {email}) => {
+            return User.findOne({email: email}).populate('appointments');
+        },
         appointments: async () => {
-            return Appointments.find();
+            return Appointment.find();
         }
     },
     Mutation: {
-        addUser: async (parent, { username, email, password }) => {
-            const user = await User.create({ username, email, password });
+        addUser: async (parent, { username, email, password, stylist}) => {
+            const user = await User.create({ username, email, password, stylist });
             const token = signToken(user);
             return { token, user };
         },
@@ -31,6 +37,11 @@ const resolvers = {
 
             return { token, user };
         },
+        createAppointment: async(parent, {name, userId ,start, end}, context) => {
+            const appointment = await Appointment.create({name, userId, start, end});
+
+            return appointment
+        }
     }
 };
 

@@ -1,4 +1,13 @@
 {
+  "name": "appointment-creator-server",
+  "version": "1.0.0",
+  "description": "Holds users and appointments",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon",
+    "seed": "node seeders/seed.js"
+  },
   "dependencies": {
     "apollo-server-core": "^3.6.3",
     "apollo-server-express": "^3.6.3",

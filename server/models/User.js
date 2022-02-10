@@ -21,9 +21,13 @@ const userSchema = new Schema({
     appointments: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Appointments'
+            ref: 'Appointment'
         }
-    ]
+    ],
+    stylist: {
+        type: Boolean,
+        required: true
+    }
 });
 
 userSchema.pre('save', async function (next) {
