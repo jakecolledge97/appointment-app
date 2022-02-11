@@ -38,9 +38,20 @@ const resolvers = {
             return { token, user };
         },
         createAppointment: async(parent, {name, userId ,start, end}, context) => {
-            const appointment = await Appointment.create({name, userId, start, end});
-
-            return appointment
+            if(context.user){
+                const appointment = await Appointment.create({name, userId:context.user._id, start, end});
+                console.log(appointment)
+                await User.findOneAndUpdate(
+                    {_id: context.user._id},
+                    {
+                        $addToSet: {
+                            appointments:{...appointment}
+                        }
+                    }
+                )   
+                return appointment
+            }
+            throw new AuthenticationError('You need to be logged in!');
         }
     }
 };
