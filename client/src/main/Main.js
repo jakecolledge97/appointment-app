@@ -1,10 +1,11 @@
 import Calendar from "./calendar/Calendar";
-import Login from "./login/Login"
+import Header from "./header/Header";
+
 
 const Main = () => {
     return ( 
         <div className="main">
-            <Login />
+            <Header />
         </div>
     );
 }

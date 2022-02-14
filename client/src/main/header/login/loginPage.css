@@ -1,0 +1,22 @@
+
+.login-container input, .login-container button{
+    height: 2em;
+    border: none;
+    padding: -1px;
+    margin: 0px 3px;
+    border-radius: 3px;
+    outline: none;
+}
+/* .login-container input{
+
+} */
+.login-container button{
+    background: #5D5E60;
+    color: white;
+
+}
+
+.login-container input:focus-visible{
+    outline: none;
+}
+
