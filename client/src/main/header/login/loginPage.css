@@ -23,12 +23,26 @@
 .login-container input:focus-visible{
     outline: none;
 }
+
+.logout {
+    background-color: #5D5E60;
+    color: white;
+    height: 2em;
+    border: none;
+    padding: -1px;
+    margin: 0px 3px;
+    border-radius: 3px;
+    outline: none;
+}
+
 .hide{
     display:none
 }
+
 .show{
     display: flex
 }
+
 .modal {
     background-color: rgba(0,0,0,0.7);
     display: flex;

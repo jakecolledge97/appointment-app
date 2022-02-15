@@ -8,7 +8,7 @@ const typeDefs = gql`
         email: String!
         password: String!
         appointments: [Appointment]
-        stylist: Boolean!
+        stylist: Boolean
     }
 
     type Appointment {
@@ -31,7 +31,7 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        addUser(username: String!, email: String!, password: String!, stylist: Boolean!): Auth
+        addUser(username: String!, email: String!, password: String!, stylist: Boolean): Auth
         login(email: String!, password: String!): Auth
         createAppointment(name: String!, userId: String!, start: String!, end: String!): Appointment
     }

@@ -16,10 +16,9 @@ const LoginPage = () => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        
+
         if (event.nativeEvent.submitter.value === 'login') {
             try {
-                console.log('test')
                 const mutationResponse = await login({
                     variables: { email: formState.email, password: formState.password }
                 });
@@ -30,16 +29,21 @@ const LoginPage = () => {
                 console.log('error')
                 console.log(e);
             }
-        }else if(event.nativeEvent.submitter.value === 'createUser'){
-            const mutationResponse = await addUser({
-                variables: {
-                    email: formState.email,
-                    password: formState.password,
-                    username: formState.username
-                  }
-            });
-            const token = mutationResponse.data.addUser.token;
-            Auth.login(token)
+        } else if (event.nativeEvent.submitter.value === 'createUser') {
+            try {
+                const mutationResponse = await addUser({
+                    variables: {
+                        email: formState.email,
+                        password: formState.password,
+                        username: formState.username
+                    }
+                });
+                console.log(mutationResponse)
+                const token = mutationResponse.data.addUser.token;
+                Auth.login(token)
+            } catch (e){
+                console.log(e)
+            }
         }
     }
 
@@ -50,32 +54,43 @@ const LoginPage = () => {
             [name]: value,
         });
     }
+
+    console.log(Auth.loggedIn())
     return (
         <>
-            <div className={modalState}>
-                <div className="modal">
-                    <button className="exitButton" value="exit" onClick={() => setModalState("hide")}>x</button>
-                    <form>
-                        <label>
-                            <input id='emailModal' type="text" name="email" placeholder="email" onChange={handleChange} value={formState.email} />
-                            <input id='passwordModal' type="password" name="password" placeholder="password" onChange={handleChange} value={formState.password} />
-                            <input id='usernname' type="text" name="username" placeholder="username" onChange={handleChange} value={formState.username} />
-                            <button type="submit" value="createUser">Create User</button>
-                        </label>
-                    </form>
-                </div>
-            </div>
-            <div className="login-container">
-                <form onSubmit={handleFormSubmit}>
-                    <label>
-                        <input id='email' type="email" name="email" placeholder="email" onChange={handleChange} value={formState.email} />
-                        <input id='password' type="password" name="password" placeholder="password" onChange={handleChange} value={formState.password} />
-                    </label>
-                    <button type="submit" value="login">Login</button>
+            {!Auth.loggedIn() ? (
+                <>
+                    <div className={modalState}>
+                        <div className="modal">
+                            <button className="exitButton" value="exit" onClick={() => setModalState("hide")}>x</button>
+                            <form onSubmit={handleFormSubmit}>
+                                <label>
+                                    <input id='emailModal' type="text" name="email" placeholder="email" onChange={handleChange} value={formState.email} />
+                                    <input id='passwordModal' type="password" name="password" placeholder="password" onChange={handleChange} value={formState.password} />
+                                    <input id='usernname' type="text" name="username" placeholder="username" onChange={handleChange} value={formState.username} />
+                                    <button type="submit" value="createUser">Create User</button>
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                    <div className="login-container">
+                        <form onSubmit={handleFormSubmit}>
+                            <label>
+                                <input id='email' type="email" name="email" placeholder="email" onChange={handleChange} value={formState.email} />
+                                <input id='password' type="password" name="password" placeholder="password" onChange={handleChange} value={formState.password} />
+                            </label>
+                            <button type="submit" value="login">Login</button>
 
-                </form>
-                <button value="signin" onClick={() => setModalState("show")}>Sign Up</button>
-            </div>
+                        </form>
+                        <button value="signin" onClick={() => setModalState("show")}>Sign Up</button>
+                    </div>
+                </>
+            ) : (
+                <button className="logout" onClick={() => Auth.logout()}>
+                    Log Out
+                </button>
+            )}
+
         </>
     );
 }
