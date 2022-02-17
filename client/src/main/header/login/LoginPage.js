@@ -2,8 +2,7 @@ import './loginPage.css'
 import { useState } from 'react';
 import { useMutation } from '@apollo/client'
 import { LOGIN, ADD_USERS } from '../../../utils/mutations';
-
-import Auth from '../../../utils/auth';
+import { useAuthContext } from '../../../utils/AuthContext';
 
 const LoginPage = () => {
     //handles email, password, username
@@ -11,7 +10,9 @@ const LoginPage = () => {
     //handles modal display
     const [modalState, setModalState] = useState("hide")
 
-    const [login, { loginError }] = useMutation(LOGIN)
+    const {loggedIn, login, logout} = useAuthContext();
+
+    const [loginRequest, { loginError }] = useMutation(LOGIN)
     const [addUser, { addUserError }] = useMutation(ADD_USERS)
 
     const handleFormSubmit = async (event) => {
@@ -19,11 +20,11 @@ const LoginPage = () => {
 
         if (event.nativeEvent.submitter.value === 'login') {
             try {
-                const mutationResponse = await login({
+                const mutationResponse = await loginRequest({
                     variables: { email: formState.email, password: formState.password }
                 });
                 const token = mutationResponse.data.login.token;
-                Auth.login(token);
+                login(token);
                 setFormState({ email: '', password: '', username: '' })
             } catch (e) {
                 console.log('error')
@@ -40,7 +41,8 @@ const LoginPage = () => {
                 });
                 console.log(mutationResponse)
                 const token = mutationResponse.data.addUser.token;
-                Auth.login(token)
+                login(token)
+                //react router navigate later when cbf
             } catch (e){
                 console.log(e)
             }
@@ -54,11 +56,9 @@ const LoginPage = () => {
             [name]: value,
         });
     }
-
-    console.log(Auth.loggedIn())
     return (
         <>
-            {!Auth.loggedIn() ? (
+            {!loggedIn ? (
                 <>
                     <div className={modalState}>
                         <div className="modal">
@@ -86,7 +86,7 @@ const LoginPage = () => {
                     </div>
                 </>
             ) : (
-                <button className="logout" onClick={() => Auth.logout()}>
+                <button className="logout" onClick={() => logout()}>
                     Log Out
                 </button>
             )}

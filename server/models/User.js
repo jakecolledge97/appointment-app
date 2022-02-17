@@ -26,7 +26,8 @@ const userSchema = new Schema({
     ],
     stylist: {
         type: Boolean,
-        required: false
+        required: true,
+        default: false
     }
 });
 
