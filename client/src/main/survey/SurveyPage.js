@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_HAIRSTYLIST } from '../../utils/queries';
 import DatePicker from "react-datepicker";
 import DateTimePicker from 'react-datetime-picker';
+import moment from 'moment';
 
 
 const SurveyPage = () => {
@@ -23,11 +24,24 @@ const SurveyPage = () => {
             [name]: value,
         });
     }
+
+    const handleFormSubmit = async (event) => {
+        event.preventDefault()
+        if(!hairUserData.hairLength || !hairUserData.service || !hairUserData.stylist || !hairUserData.appointmentDate){
+            return "You must fill out the form"
+        }else{
+
+        }
+    }
+    const date = moment(hairUserData.appointmentDate.toISOString()).add(0.5, 'hours').format()
+    // const date = hairUserData.appointmentDate.toISOString()
     // console.log(data)
-    console.log(hairUserData)
+    console.log(date)
+    console.log(hairUserData.appointmentDate)
+    // console.log(date)
     return (
         <>
-            <form>
+            <form onSubmit={handleFormSubmit}>
                 <p>Hair Length:</p>
                 <div>
                     <label htmlFor="hair-short">
