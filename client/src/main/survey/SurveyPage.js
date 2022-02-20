@@ -1,10 +1,13 @@
 import './survey.css';
-import { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/client'
-import { QUERY_HAIRSTYLIST } from '../../utils/queries'
+import 'react-datepicker/dist/react-datepicker.css';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import { QUERY_HAIRSTYLIST } from '../../utils/queries';
+import DatePicker from "react-datepicker";
 
 const SurveyPage = () => {
-    const [hairUserData, setHairUserData] = useState({ hairLength: 'Short', service: 'Cut', stylist: '' })
+    const [startDate, setStartDate] = useState(new Date());
+    const [hairUserData, setHairUserData] = useState({ hairLength: 'Short', service: 'Cut', stylist: '', appointmentDate: startDate})
     const { loading, error, data } = useQuery(QUERY_HAIRSTYLIST);
 
     if (loading) return 'Loading...';
@@ -17,7 +20,7 @@ const SurveyPage = () => {
             [name]: value,
         });
     }
-    console.log(data)
+    // console.log(data)
     console.log(hairUserData)
     return (
         <>
@@ -66,6 +69,11 @@ const SurveyPage = () => {
                     </select>
                 </div>
                 <div>
+                    <p>Appointment Date:</p>
+                    <DatePicker selected={startDate} onChange={(date) => setHairUserData({...hairUserData, appointmentDate: date})} />
+                </div>
+                <div>
+
                     <button type="submit">Submit</button>
                 </div>
             </form>
