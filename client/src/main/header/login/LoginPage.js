@@ -10,7 +10,7 @@ const LoginPage = () => {
     //handles modal display
     const [modalState, setModalState] = useState("hide")
 
-    const {loggedIn, login, logout} = useAuthContext();
+    const { loggedIn, login, logout } = useAuthContext();
 
     const [loginRequest, { loginError }] = useMutation(LOGIN)
     const [addUser, { addUserError }] = useMutation(ADD_USERS)
@@ -43,7 +43,7 @@ const LoginPage = () => {
                 const token = mutationResponse.data.addUser.token;
                 login(token)
                 //react router navigate later when cbf
-            } catch (e){
+            } catch (e) {
                 console.log(e)
             }
         }
@@ -86,9 +86,17 @@ const LoginPage = () => {
                     </div>
                 </>
             ) : (
-                <button className="logout" onClick={() => logout()}>
-                    Log Out
-                </button>
+                <>
+                    <button className="logout" onClick={() => logout()}>
+                        Log Out
+                    </button>
+                    <button className="bookNow" onClick={console.log('test')}>
+                        Book Now
+                    </button>
+                    <button className="calendarButton" onClick={console.log('test')}>
+                        Calendar
+                    </button>
+                </>
             )}
 
         </>

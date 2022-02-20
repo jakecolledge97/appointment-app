@@ -24,7 +24,7 @@
     outline: none;
 }
 
-.logout {
+.logout, .bookNow, .calendarButton {
     background-color: #5D5E60;
     color: white;
     height: 2em;
