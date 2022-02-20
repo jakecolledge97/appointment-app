@@ -3,26 +3,20 @@ import FullCalendar from '@fullcalendar/react' // must go before plugins
 import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-const Calendar = () => {
+import { useQuery } from '@apollo/client';
+import { QUERY_HAIRSTYLIST, QUERY_APPOINTMENTS } from '../../utils/queries';
 
-    const resourceData = [
-        {
-            id: 1,
-            title: "Person 1"
-        },
-        {
-            id: 2,
-            title: "Person 2"
-        },
-        {
-            id: 3,
-            title: "Person 3"
-        },
-        {
-            id: 4,
-            title: "person 4"
-        }
-    ]
+const Calendar = () => {
+    const {loading, error, data} = useQuery(QUERY_HAIRSTYLIST)
+
+    if (loading) return 'Loading...';
+    if (error) return `Error! ${error.message}`;
+    console.log(data.hairdressers[1].username)
+
+    const resourceData = data.hairdressers.map(stylistData => ({
+        id: stylistData._id,
+        title: stylistData.username
+    }))
 
     const eventsData = [
         {

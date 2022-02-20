@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_HAIRSTYLIST } from '../../utils/queries';
 import {CREATE_APPOINTMENT} from '../../utils/mutations';
-import DatePicker from "react-datepicker";
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 
