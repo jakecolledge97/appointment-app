@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client'
 import { LOGIN, ADD_USERS } from '../../../utils/mutations';
 import { useAuthContext } from '../../../utils/AuthContext';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
     //handles email, password, username
@@ -90,12 +91,17 @@ const LoginPage = () => {
                     <button className="logout" onClick={() => logout()}>
                         Log Out
                     </button>
-                    <button className="bookNow" onClick={console.log('test')}>
-                        Book Now
-                    </button>
-                    <button className="calendarButton" onClick={console.log('test')}>
-                        Calendar
-                    </button>
+                    <Link to="/booking">
+                        <button className="bookNow" onClick={console.log('test')}>
+                            Book Now
+                        </button>
+                    </Link>
+                    <Link to="/calendar">
+                        <button className="calendarButton" onClick={console.log('test')}>
+                            Calendar
+                        </button>
+                    </Link>
+
                 </>
             )}
 
