@@ -49,7 +49,6 @@ const resolvers = {
         createAppointment: async (parent, { name, userId, start, end }, context) => {
             if (context.user) {
                 const appointment = await Appointment.create({ name, userId: context.user._id, start, end });
-                console.log(appointment)
                 await User.findOneAndUpdate(
                     { _id: context.user._id },
                     {

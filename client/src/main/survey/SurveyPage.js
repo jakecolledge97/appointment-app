@@ -2,16 +2,18 @@ import './survey.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_HAIRSTYLIST } from '../../utils/queries';
+import {CREATE_APPOINTMENT} from '../../utils/mutations';
 import DatePicker from "react-datepicker";
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 
 
 const SurveyPage = () => {
+    const [createAppointment, {appointmentError}] = useMutation(CREATE_APPOINTMENT)
     const [startDate, setStartDate] = useState(new Date());
-    const [hairUserData, setHairUserData] = useState({ hairLength: 'Short', service: 'Cut', stylist: '', appointmentDate: startDate })
+    const [hairUserData, setHairUserData] = useState({ hairLength: 'Short', service: 'Cut', stylist: '', appointmentDate: startDate, appointmentEnd: '' })
     const { loading, error, data } = useQuery(QUERY_HAIRSTYLIST);
 
     if (loading) return 'Loading...';
@@ -30,7 +32,33 @@ const SurveyPage = () => {
         if(!hairUserData.hairLength || !hairUserData.service || !hairUserData.stylist || !hairUserData.appointmentDate){
             return "You must fill out the form"
         }else{
-
+            if(hairUserData.hairLength === 'Short'){
+                setHairUserData(
+                    {
+                        ...hairUserData, 
+                        appointmentEnd: moment(hairUserData.appointmentDate.toISOString()).add(0.25, 'hours').format()
+                    })
+            }else if(hairUserData.hairLength === 'Medium'){
+                setHairUserData(
+                    {
+                        ...hairUserData, 
+                        appointmentEnd: moment(hairUserData.appointmentDate.toISOString()).add(0.5, 'hours').format()
+                    })
+            }else if(hairUserData.hairLength === 'Long'){
+                setHairUserData(
+                    {
+                        ...hairUserData, 
+                        appointmentEnd: moment(hairUserData.appointmentDate.toISOString()).add(1, 'hours').format()
+                    })
+            }
+            await createAppointment({
+                variables: {
+                    userId: hairUserData.stylist,
+                    name: hairUserData.service,
+                    start: hairUserData.appointmentDate,
+                    end: hairUserData.appointmentEnd
+                }
+            })
         }
     }
     const date = moment(hairUserData.appointmentDate.toISOString()).add(0.5, 'hours').format()
