@@ -1,5 +1,5 @@
 {
-  "name": "Project name",
+  "name": "Appointment Creator",
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
