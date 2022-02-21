@@ -22,6 +22,9 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
+        singleStylist: async (parent, { username }) => {
+            return User.findOne({username: username })
+        }
     },
     Mutation: {
         addUser: async (parent, { username, email, password, stylist }) => {
@@ -46,9 +49,9 @@ const resolvers = {
 
             return { token, user };
         },
-        createAppointment: async (parent, { name, userId, start, end }, context) => {
+        createAppointment: async (parent, { name, userId, start, end, title }, context) => {
             if (context.user) {
-                const appointment = await Appointment.create({ name, userId: context.user._id, start, end });
+                const appointment = await Appointment.create({ name, userId, start, end, title });
                 await User.findOneAndUpdate(
                     { _id: context.user._id },
                     {

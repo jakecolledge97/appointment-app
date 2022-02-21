@@ -28,6 +28,14 @@ export const QUERY_HAIRSTYLIST = gql`
         }
     }
 `
+export const QUERY_SINGLE_HAIRSTYLIST = gql`
+     query Stylist($username: String!) {
+        stylist(username: $username) {
+            username
+            _id
+        }
+    }
+`
 
 export const QUERY_APPOINTMENTS = gql`
     query Appointments {
@@ -37,6 +45,7 @@ export const QUERY_APPOINTMENTS = gql`
             name
             start
             end
+            title
         }
     }
 `

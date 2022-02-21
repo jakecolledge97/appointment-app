@@ -7,35 +7,32 @@ import { useQuery } from '@apollo/client';
 import { QUERY_HAIRSTYLIST, QUERY_APPOINTMENTS } from '../../utils/queries';
 
 const Calendar = () => {
-    const {loading, error, data} = useQuery(QUERY_HAIRSTYLIST)
+    const stylists = useQuery(QUERY_HAIRSTYLIST)
+    const appointments = useQuery(QUERY_APPOINTMENTS)
 
-    if (loading) return 'Loading...';
-    if (error) return `Error! ${error.message}`;
-    console.log(data.hairdressers[1].username)
+    if (stylists.loading) return 'Loading Stylists...';
+    if (stylists.error) return `Error! ${stylists.error.message}`;
 
-    const resourceData = data.hairdressers.map(stylistData => ({
+
+    if(appointments.loading) return `Loading Appointments...`;
+    if(appointments.error) return `Error! ${appointments.error.message}`
+
+    const resourceData = stylists.data.hairdressers.map(stylistData => ({
         id: stylistData._id,
         title: stylistData.username
     }))
 
-    const eventsData = [
-        {
-            id: "a",
-            title: "Hair ap",
-            start: "2022-02-09T09:00:00",
-            end: "2022-02-09T09:30:00",
-            interactive: true,
-            editable: true,
-            resourceId: 1
-        },
-        {
-            id: "b",
-            title: "Another ap",
-            startTime: "10:00:00",
-            endTime: "11:00:00",
-            resourceId: 4
-        }
-    ]
+    const eventsData = appointments.data.appointments.map(appointmentData => ({
+        title: appointmentData.title + ' ' +appointmentData.name,
+        id: appointmentData._id,
+        resourceId: appointmentData.userId.toString(),
+        start: appointmentData.start,
+        end: appointmentData.end,
+        interactive: true,
+        editable: true,
+    }))
+    console.log(appointments.data)
+    console.log(eventsData)
 
     return (
         <div className="calendar-page">

@@ -29,13 +29,14 @@ export const ADD_USERS = gql`
 `
 
 export const CREATE_APPOINTMENT = gql`
-    mutation CreateAppointments($name: String!, $userId: String!, $start: String!, $end: String!) {
-        createAppointment(name: $name, userId: $userId, start: $start, end: $end) {
+    mutation CreateAppointments($name: String!, $userId: String!, $start: String!, $end: String!, $title: String!) {
+        createAppointment(name: $name, userId: $userId, start: $start, end: $end, title: $title) {
             _id
             userId
             name
             start
             end
+            title
         }
     }
 `

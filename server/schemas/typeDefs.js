@@ -17,6 +17,7 @@ const typeDefs = gql`
         name: String!
         start: String!
         end: String!
+        title: String!
     }
     
     type Auth {
@@ -30,12 +31,13 @@ const typeDefs = gql`
         singleUser(email: String!): User
         appointments: [Appointment]
         me: User
+        singleStylist(username: String!): User
     }
 
     type Mutation {
         addUser(username: String!, email: String!, password: String!, stylist: Boolean): Auth
         login(email: String!, password: String!): Auth
-        createAppointment(name: String!, userId: String!, start: String!, end: String!): Appointment
+        createAppointment(name: String!, userId: String!, start: String!, end: String!, title: String!): Appointment
     }
 `;
 
